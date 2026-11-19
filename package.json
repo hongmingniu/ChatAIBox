@@ -65,7 +65,10 @@
       "dist/**/*",
       "desktop/**/*",
       "shared/**/*",
-      "package.json"
+      "package.json",
+      "!**/node_modules/@capacitor{,/**/*}",
+      "!**/{.gradle,.idea,.cache}{,/**/*}",
+      "!**/*.log"
     ],
     "win": {
       "target": "zip",
