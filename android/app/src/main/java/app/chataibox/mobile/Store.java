@@ -58,7 +58,7 @@ public final class Store {
         if(!next.optString("syncKey").matches("[a-f0-9]{64}"))throw new IOException("配对密钥必须为 64 位十六进制字符");
         int port=next.optInt("port",0);if(port<1024||port>65535)throw new IOException("端口应在 1024–65535 之间");
         if(next.optString("model").isEmpty()||next.optString("model").length()>160)throw new IOException("模型无效");JSONArray providers=next.optJSONArray("providers");if(providers!=null){if(providers.length()>30)throw new IOException("提供方过多");Set<String> ids=new HashSet<>();for(int i=0;i<providers.length();i++){JSONObject p=providers.getJSONObject(i);Providers.validate(p);if(!ids.add(p.getString("id")))throw new IOException("提供方重复");}}
-        if(!Arrays.asList("relay","direct").contains(next.optString("syncMode","relay")))throw new IOException("同步模式无效");next.put("relayUrl",RelayAgent.baseUrl(next.optString("relayUrl","https://relay.example.com/chataibox")));
+        if(!Arrays.asList("relay","direct").contains(next.optString("syncMode","relay")))throw new IOException("同步模式无效");String relayAddress=next.optString("relayUrl","");if(!relayAddress.isEmpty())relayAddress=RelayAgent.baseUrl(relayAddress);if(next.optBoolean("syncEnabled")&&next.optString("syncMode","relay").equals("relay")&&relayAddress.isEmpty())throw new IOException("请填写转发服务地址");next.put("relayUrl",relayAddress);
         String accessKey=next.optString("relayAccessKey","");if(!accessKey.isEmpty()&&!accessKey.matches("[A-Za-z0-9_-]{32,256}"))throw new IOException("服务器访问密钥格式无效");
         String proxy=next.optString("proxy","");if(!proxy.isEmpty()&&!proxy.matches("http://(127\\.0\\.0\\.1|localhost):[0-9]{1,5}/?"))throw new IOException("代理格式应为 http://127.0.0.1:端口");
         persist("settings.enc",next);settings=new JSONObject(next.toString());

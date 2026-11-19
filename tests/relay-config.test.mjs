@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {DEFAULT_RELAY_URL,relayUrl} from '../shared/relay.mjs';
+test('新安装不预填中转地址，空地址允许保存未开启的同步设置，显式地址仍校验 HTTPS',()=>{assert.equal(DEFAULT_RELAY_URL,'');assert.equal(relayUrl(),'');assert.equal(relayUrl(''),'');assert.equal(relayUrl('https://relay.example.com/chataibox/'),'https://relay.example.com/chataibox');for(const value of ['http://relay.example.com','https://a:b@relay.example.com','https://relay.example.com/?secret=x'])assert.throws(()=>relayUrl(value));});
