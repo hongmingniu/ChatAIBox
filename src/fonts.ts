@@ -1,6 +1,6 @@
 import type {Settings} from './host';
 export type FontSettings=Pick<Settings,'fontFamily'|'fontSize'|'fontScope'|'fontCode'|'fontFileId'|'fontFileName'>;
-export const SYSTEM_FONT='"Segoe UI", "Microsoft YaHei", system-ui, sans-serif';
+export const SYSTEM_FONT='"HarmonyOS Sans SC", "Segoe UI", "Microsoft YaHei", system-ui, sans-serif';
 export function fontStack(name='system'){
  if(name==='system')return SYSTEM_FONT;
  if(name==='serif')return 'Georgia, "Noto Serif CJK SC", serif';

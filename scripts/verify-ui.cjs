@@ -5,7 +5,7 @@ app.whenReady().then(async()=>{
  try{
   let win;for(let i=0;i<100;i++){win=BrowserWindow.getAllWindows()[0];if(win&&!win.webContents.isLoading()&&win.webContents.getURL())break;await new Promise(r=>setTimeout(r,100));}
   await new Promise(r=>setTimeout(r,1300));
-  const text=await win.webContents.executeJavaScript('document.body.innerText');if(!text.includes('你好，今天想聊点什么'))throw Error('Welcome UI not rendered');
+  const text=await win.webContents.executeJavaScript('document.body.innerText');if(!text.includes('新对话'))throw Error('Welcome UI not rendered');
   fs.writeFileSync(path.join(folder,'desktop.png'),(await win.webContents.capturePage()).toPNG());
   await win.webContents.executeJavaScript("[...document.querySelectorAll('button')].find(b=>b.textContent==='设置').click()");await new Promise(r=>setTimeout(r,250));
   const modal=await win.webContents.executeJavaScript("document.querySelector('.modal').innerText");if(!modal.includes('API Key'))throw Error('Settings missing');
