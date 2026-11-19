@@ -1,0 +1,11 @@
+/* Native Windows backdrop: keep the Chromium canvas transparent. */
+html[data-platform=windows],html[data-platform=windows] body,html[data-platform=windows] #root{background:transparent}
+html[data-platform=windows] .app-shell{border-radius:var(--window-radius,12px);overflow:hidden}
+html[data-platform=windows] .app-shell:before{inset:0;border-radius:inherit;border-color:var(--line);box-shadow:none}
+html[data-platform=windows][data-window-maximized=true] .app-shell:before{display:none}
+html[data-platform=windows][data-desktop-backdrop=acrylic] .app-shell{background:color-mix(in srgb,var(--wash) 36%,transparent)}
+html[data-platform=windows][data-desktop-backdrop=acrylic] .app-shell>main{background:color-mix(in srgb,var(--wash) 22%,transparent)}
+html[data-platform=windows][data-desktop-backdrop=acrylic] .sidebar{background:color-mix(in srgb,var(--surface-strong) 30%,transparent);backdrop-filter:none}
+html[data-platform=windows][data-desktop-backdrop=acrylic] header{background:transparent;backdrop-filter:none}
+html[data-platform=windows][data-desktop-backdrop=acrylic] .app-shell[data-custom-background=true]>main{background:color-mix(in srgb,var(--wash) 55%,transparent)}
+html[data-platform=windows][data-desktop-backdrop=acrylic] .app-shell[data-custom-background=true] .sidebar{background:color-mix(in srgb,var(--surface-strong) 65%,transparent)}

@@ -1,8 +1,10 @@
-const {app,BrowserWindow,ipcMain,safeStorage,Menu,dialog,shell,clipboard}=require('electron');
+const {app,BrowserWindow,ipcMain,safeStorage,Menu,dialog,shell,clipboard,nativeTheme}=require('electron');
 const fs=require('node:fs');const path=require('node:path');const os=require('node:os');
 const {randomUUID,randomBytes}=require('node:crypto');
 const {createClient}=require('./deepseek.cjs');
 const {syncOnce,peerUrl}=require('./sync.cjs');
+const {attachWindowEffects}=require('./window-effects.cjs');
+let effects;
 let win,store,settings,root,syncTimer,syncBusy=false,syncEpoch=0,stateVersion=0,pending=false,status={listening:false,lastSync:0,error:''},mergeRecords;
 const client=createClient(()=>settings);
 const media=require('./media.cjs');
@@ -28,7 +30,7 @@ app.whenReady().then(async()=>{
     if(event.sender!==win?.webContents||event.senderFrame!==win.webContents.mainFrame)throw Error('不允许的访问');
     switch(method){
       case 'windowControl':{if(!win||win.isDestroyed())throw Error('窗口不可用');if(args.action==='minimize')win.minimize();else if(args.action==='toggleMaximize'){if(win.isMaximized())win.unmaximize();else win.maximize();}else if(args.action==='close'){app.quitting=true;app.quit();return {};}else throw Error('无效的窗口操作');return {maximized:win.isMaximized()};}
-      case 'read':return {state:args.knownVersion===stateVersion?undefined:store,stateVersion,settings,platform:'windows',status:{...status,windowMaximized:!!win?.isMaximized(),addresses:Object.values(os.networkInterfaces()).flat().filter(a=>a&&!a.internal&&a.family==='IPv6'&&!a.address.startsWith('fe80:')).map(a=>a.address)}};
+      case 'read':return {state:args.knownVersion===stateVersion?undefined:store,stateVersion,settings,platform:'windows',status:{...status,windowMaximized:!!win?.isMaximized(),desktopBackdrop:effects?.state.material||'none',windowRadius:effects?.state.radius||0,addresses:Object.values(os.networkInterfaces()).flat().filter(a=>a&&!a.internal&&a.family==='IPv6'&&!a.address.startsWith('fe80:')).map(a=>a.address)}};
       case 'write':{const baseVersion=stateVersion;pending=true;status.pending=true;const updated=merge(args.records);const result={state:args.returnState===false?undefined:updated,baseVersion,stateVersion};synchronize();return result;}
       case 'sync':await synchronize();return {};
       case 'settings':{
@@ -41,7 +43,8 @@ app.whenReady().then(async()=>{
         const changed=pairingChanged||next.syncEnabled!==settings.syncEnabled||next.syncMode!==settings.syncMode||next.relayUrl!==settings.relayUrl||next.relayAccessKey!==settings.relayAccessKey||next.proxy!==settings.proxy;
         if(pairingChanged&&settings.peerAddress&&pending&&store.records.length)throw Error('请先同步当前消息，再更改配对；或退出后重新配对');
         if(pairingChanged&&settings.peerAddress&&!pending){store.records=[];stateVersion++;acknowledged.clear();}
-        settings=next;saveSettings();if(changed)restartSync();return {settings};
+        if(!['acrylic','system','opaque'].includes(next.windowBackdrop||'acrylic'))throw Error('窗口背景选项无效');
+        settings=next;saveSettings();nativeTheme.themeSource=settings.theme||'system';effects?.refresh();if(changed)restartSync();return {settings};
       }
       case 'request':return client.request(args,chunk=>{if(win&&!win.isDestroyed())win.webContents.send('stream-chunk',chunk);});
       case 'cancelRequest':client.cancel(args.requestId);media.cancel(args.requestId);return {};
@@ -57,13 +60,14 @@ app.whenReady().then(async()=>{
       default:throw Error('未知操作');
     }
   });
-  win=new BrowserWindow({width:1250,height:850,minWidth:760,minHeight:600,title:'ChatAIBox',frame:false,autoHideMenuBar:true,backgroundColor:'#e8e3df',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
+  win=new BrowserWindow({width:1250,height:850,minWidth:760,minHeight:600,title:'ChatAIBox',frame:false,autoHideMenuBar:true,backgroundColor:'#00000000',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
+  nativeTheme.themeSource=settings.theme||'system';effects=attachWindowEffects(win,nativeTheme,notify,()=>settings.windowBackdrop||'acrylic');win.on('closed',()=>effects?.close());
   win.webContents.session.webRequest.onHeadersReceived((details,callback)=>callback({responseHeaders:{...details.responseHeaders,'Content-Security-Policy':["default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; media-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; base-uri 'none'"]}}));
   win.webContents.session.setPermissionRequestHandler((contents,permission,callback)=>callback(contents===win.webContents&&permission==='media'));
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));win.webContents.on('will-navigate',event=>event.preventDefault());
   Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'ChatAIBox',submenu:[{label:'显示窗口',click:()=>win.show()},{label:'退出',click:()=>{app.quitting=true;app.quit();}}]},{label:'编辑',submenu:[{role:'undo'},{role:'redo'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]}]));
   win.on('maximize',notify);win.on('unmaximize',notify);win.on('restore',notify);
-  win.on('close',e=>{if(settings.syncEnabled&&!app.quitting){e.preventDefault();win.minimize();}});
+  win.on('close',e=>{if(settings.syncEnabled&&!app.quitting){e.preventDefault();win.minimize();}else effects?.close();});
   await win.loadFile(path.join(__dirname,'../dist/index.html'));restartSync();
 }).catch(e=>{dialog.showErrorBox('启动失败',e.message);app.quit();});
 app.on('window-all-closed',()=>app.quit());app.on('before-quit',event=>{

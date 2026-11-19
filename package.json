@@ -1,16 +1,17 @@
 {
   "name": "chatai-box",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "DeepSeek chat with encrypted device synchronization",
   "main": "desktop/main.cjs",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build && node scripts/licenses.cjs",
-    "desktop": "npm run build && electron .",
-    "pack:win": "npm run build && node scripts/package-win.cjs",
+    "desktop": "npm run build:native && npm run build && electron .",
+    "pack:win": "npm run build:native && npm run build && node scripts/package-win.cjs",
     "android:sync": "npm run build && cap sync android",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "build:native": "node scripts/build-window-effects.cjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.0",
@@ -26,6 +27,7 @@
     "highlight.js": "^11.12.0",
     "https-proxy-agent": "^9.1.0",
     "katex": "^0.19.1",
+    "koffi": "^3.3.8",
     "lucide-react": "^0.468.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -68,6 +70,9 @@
     "win": {
       "target": "zip",
       "artifactName": "ChatAIBox-${version}-Windows-x64.zip"
-    }
+    },
+    "asarUnpack": [
+      "desktop/native/bin/**/*.dll"
+    ]
   }
 }

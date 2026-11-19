@@ -19,3 +19,5 @@ tools/
 AGENTS.md
 AGENTS.override.md
 .codex/
+
+desktop/native/bin/

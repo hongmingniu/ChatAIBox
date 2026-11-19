@@ -1,0 +1,12 @@
+const fs=require('node:fs'),path=require('node:path'),{spawnSync}=require('node:child_process');
+if(process.platform!=='win32')process.exit(0);
+const root=path.resolve(__dirname,'..'),output=path.join(root,'desktop/native/bin/win32-x64');
+const vswhere=path.join(process.env['ProgramFiles(x86)']||'C:/Program Files (x86)','Microsoft Visual Studio/Installer/vswhere.exe');
+const found=spawnSync(vswhere,['-latest','-products','*','-requires','Microsoft.VisualStudio.Component.VC.Tools.x86.x64','-property','installationPath'],{encoding:'utf8'});
+if(found.status!==0||!found.stdout.trim())throw Error('Windows 原生磨砂构建需要 Visual Studio C++ Build Tools 与 Windows 10 SDK。');
+fs.mkdirSync(output,{recursive:true});
+const vcvars=path.join(found.stdout.trim(),'VC/Auxiliary/Build/vcvars64.bat'),script=path.join(output,'build.cmd');
+fs.writeFileSync(script,`@echo off\r\ncall "${vcvars}" >nul\r\nif errorlevel 1 exit /b 1\r\ncl /nologo /std:c++17 /EHsc /O2 /LD /MT /Brepro "${path.join(root,'desktop/native/backdrop.cpp')}" /Fo"${path.join(output,'backdrop.obj')}" /Fe"${path.join(output,'backdrop.dll')}" /link /Brepro windowsapp.lib CoreMessaging.lib\r\n`);
+const result=spawnSync('cmd.exe',['/d','/c',script],{cwd:output,stdio:'inherit'});
+for(const name of ['build.cmd','backdrop.obj','backdrop.lib','backdrop.exp'])fs.rmSync(path.join(output,name),{force:true});
+if(result.status!==0)process.exit(result.status||1);

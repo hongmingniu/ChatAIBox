@@ -7,7 +7,7 @@
 适用于使用 systemd 的 Linux，需已安装 Node.js 22+、Nginx 和有效的 HTTPS 证书。不会创建云资源、修改安全组或购买服务。
 
 ```sh
-tar -xzf ChatAIBox-0.3.2-Linux-relay.tar.gz
+tar -xzf ChatAIBox-0.3.3-Linux-relay.tar.gz
 cd chataibox-relay
 # 分发包已包含 ws 运行依赖；从源码安装时先执行：
 npm ci --omit=dev --ignore-scripts
