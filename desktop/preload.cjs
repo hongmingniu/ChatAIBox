@@ -1,0 +1,2 @@
+const {contextBridge,ipcRenderer}=require('electron');
+contextBridge.exposeInMainWorld('desktopHost',{call:(method,args={})=>ipcRenderer.invoke('host',{method,args}),onChange:(callback)=>{const listener=()=>callback();ipcRenderer.on('changed',listener);return()=>ipcRenderer.removeListener('changed',listener);},onStream:(callback)=>{const listener=(_event,chunk)=>callback(chunk);ipcRenderer.on('stream-chunk',listener);return()=>ipcRenderer.removeListener('stream-chunk',listener);}});

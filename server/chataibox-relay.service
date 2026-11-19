@@ -1,0 +1,24 @@
+[Unit]
+Description=ChatAIBox encrypted memory relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=true
+WorkingDirectory=/opt/chataibox-relay
+ExecStart=/usr/bin/node /opt/chataibox-relay/relay.cjs
+Environment=PORT=39181
+EnvironmentFile=/etc/chataibox-relay.env
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+MemoryMax=384M
+LimitNOFILE=2048
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

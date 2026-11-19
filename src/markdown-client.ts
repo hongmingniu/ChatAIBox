@@ -1,0 +1,6 @@
+type Job={id:number;key:string;text:string;callback:(html:string)=>void};let worker:Worker|undefined,busy:Job|undefined,sequence=0;const queue=new Map<string,Job>(),cache=new Map<string,string>();let cacheSize=0;
+function pump(){if(busy||!queue.size)return;const [key,job]=queue.entries().next().value!;queue.delete(key);busy=job;
+ if(!worker){worker=new Worker(new URL('./markdown.worker.ts',import.meta.url),{type:'module'});worker.onmessage=({data})=>{const job=busy;busy=undefined;if(job&&data.id===job.id){if(data.html){cache.set(job.text,data.html);cacheSize+=job.text.length+data.html.length;while(cacheSize>2000000&&cache.size){const [text,html]=cache.entries().next().value!;cacheSize-=text.length+html.length;cache.delete(text);}}job.callback(data.html??'<p>Markdown 解析失败，请复制原文查看。</p>');}pump();};worker.onerror=()=>{const job=busy;busy=undefined;worker?.terminate();worker=undefined;job?.callback('<p>Markdown 解析线程异常，请重试。</p>');pump();};}
+ worker.postMessage({id:job.id,text:job.text});
+}
+export function scheduleMarkdown(key:string,text:string,callback:(html:string)=>void){const cached=cache.get(text);if(cached!==undefined){callback(cached);return()=>{};}const job={id:++sequence,key,text,callback};queue.set(key,job);pump();return()=>{if(queue.get(key)?.id===job.id)queue.delete(key);job.callback=()=>{};};}
