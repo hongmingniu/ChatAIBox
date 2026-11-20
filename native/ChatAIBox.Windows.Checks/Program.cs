@@ -1,0 +1,15 @@
+using ChatAIBox;
+using ChatAIBox.Core;
+using System.Text;
+if(args is not [var fixture,var profile])throw new ArgumentException("Usage: checks <synthetic Electron profile> <empty test profile>");
+Environment.SetEnvironmentVariable("CHATAIBOX_NATIVE_TEST_PROFILE",Path.GetFullPath(profile));
+var storage=new NativeStorage();
+var migrated=Json.Read<Settings>(NativeStorage.DecryptLegacy(await File.ReadAllBytesAsync(Path.Combine(fixture,"settings.bin")),Path.Combine(fixture,"Local State")));
+if(migrated.ApiKey!="fixture-api"||migrated.SyncKey!=new string('a',64))throw new Exception("Legacy credentials migration failed");
+await storage.SaveSettingsAsync(migrated);var restored=await storage.ReadSettingsAsync();
+if(restored!=migrated&&Json.Write(restored)!=Json.Write(migrated))throw new Exception("DPAPI settings roundtrip failed");
+if(Encoding.UTF8.GetString(await File.ReadAllBytesAsync(Path.Combine(profile,"settings.bin"))).Contains("fixture-api"))throw new Exception("Plaintext settings leaked");
+if(await storage.ReadStateAsync() is not null||Directory.EnumerateFiles(profile).Any(f=>Path.GetFileName(f).Contains("records")))throw new Exception("Windows must not persist chats");
+Console.WriteLine("PASS legacy Electron credential decryption");
+Console.WriteLine("PASS native DPAPI settings roundtrip, no plaintext credentials");
+Console.WriteLine("PASS Windows has no persistent chat database");

@@ -1,0 +1,147 @@
+# Native application third-party dependencies
+
+The original license texts below accompany the native application.
+
+- HarfBuzzSharp.NativeAssets.Android/14.4.0.100 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- HarfBuzzSharp/14.4.0.100 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- Markdig/1.6.0 — BSD-2-Clause — https://xoofx.github.io/markdig
+- Microsoft.DotNet.PlatformAbstractions/3.1.6 — LICENSE.TXT — https://dot.net/
+- Microsoft.Extensions.Configuration.Abstractions/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Configuration.Binder/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Configuration/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.DependencyInjection.Abstractions/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.DependencyInjection/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.DependencyModel/9.0.9 — MIT — https://dot.net/
+- Microsoft.Extensions.Logging.Abstractions/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Logging.Configuration/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Logging.Console/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Logging/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Options.ConfigurationExtensions/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Options/10.0.15 — MIT — https://dot.net/
+- Microsoft.Extensions.Primitives/10.0.15 — MIT — https://dot.net/
+- Microsoft.NET.ILLink.Tasks/10.0.15 — MIT — https://dot.net/
+- Microsoft.Web.WebView2/1.0.3719.77 — LICENSE.txt — https://aka.ms/webview
+- Microsoft.Windows.AI.MachineLearning/2.1.74 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.Windows.SDK.BuildTools.MSIX/1.7.251221100 — sdk_license.txt — https://aka.ms/WinSDKProjectURL
+- Microsoft.Windows.SDK.BuildTools.WinApp/0.8.0 — MIT — https://github.com/microsoft/WinAppCli
+- Microsoft.Windows.SDK.BuildTools/10.0.28000.2957 — See upstream package license — https://aka.ms/WinSDKProjectURL
+- Microsoft.WindowsAppSDK.AI/2.5.5 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.Base/2.0.4 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.DWrite/2.1.0 — license.txt — https://aka.ms/WindowsAppSDK
+- Microsoft.WindowsAppSDK.Foundation/2.3.12 — license.txt — https://aka.ms/windowsappsdk
+- Microsoft.WindowsAppSDK.InteractiveExperiences/2.1.9 — license.txt — https://aka.ms/windowsappsdk
+- Microsoft.WindowsAppSDK.ML/2.1.94 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.Runtime/2.5.1 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.Search/2.5.5 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.Widgets/2.0.5 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK.WinUI/2.3.9 — license.txt — https://github.com/microsoft/windowsappsdk
+- Microsoft.WindowsAppSDK/2.5.1 — license.txt — https://github.com/microsoft/windowsappsdk
+- Silk.NET.Core/2.23.0 — MIT
+- Silk.NET.WebGPU.Extensions.WGPU/2.23.0 — MIT
+- Silk.NET.WebGPU/2.23.0 — MIT
+- SkiaSharp.NativeAssets.Android/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- SkiaSharp.NativeAssets.Win32/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- SkiaSharp.Resources/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- SkiaSharp.SceneGraph/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- SkiaSharp.Skottie/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- SkiaSharp/4.156.0 — MIT — https://go.microsoft.com/fwlink/?linkid=868515
+- System.Numerics.Tensors/9.0.0 — MIT — https://dot.net/
+- System.Security.Cryptography.ProtectedData/10.0.0 — MIT — https://dot.net/
+- Uno.Core.Extensions.Logging.Singleton/5.0.0 — Apache-2.0 — https://github.com/unoplatform/uno.core
+- Uno.Core.Extensions.Logging/5.0.0 — Apache-2.0 — https://github.com/unoplatform/uno.core
+- Uno.Diagnostics.Eventing/2.0.1 — See upstream package license — https://github.com/unoplatform/Uno.Diagnostics.Eventing
+- Uno.Fonts.Fluent/2.9.4 — Apache-2.0 — https://github.com/unoplatform/uno.fonts
+- Uno.Fonts.OpenSans/2.10.1 — Apache-2.0 — https://github.com/unoplatform/uno.fonts
+- Uno.Foundation.Logging/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.Foundation/7.0.65 — Apache-2.0 — https://platform.uno/
+- Uno.Resizetizer/2.0.1 — Apache-2.0
+- Uno.Sdk.Extras/6.4.1 — LICENSE.md
+- Uno.Settings.DevServer/2.0.6 — See upstream package license
+- Uno.UI.Adapter.Microsoft.Extensions.Logging/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinRT/7.0.65 — Apache-2.0 — https://platform.uno/
+- Uno.WinUI.Composition.Skia/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinUI.Composition.WebGpu.Init/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinUI.Graphics2DSK/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinUI.Runtime.Android/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinUI.Runtime/7.0.65 — Apache-2.0 — https://github.com/unoplatform/uno
+- Uno.WinUI/7.0.65 — Apache-2.0 — https://platform.uno/
+- Xamarin.AndroidX.Activity.Ktx/1.13.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Activity/1.13.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Annotation.Experimental/1.6.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Annotation.Jvm/1.10.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Annotation/1.10.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.AppCompat.AppCompatResources/1.8.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.AppCompat/1.8.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Arch.Core.Common/2.2.0.21 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Arch.Core.Runtime/2.2.0.21 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Browser/1.10.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.CardView/1.0.0.39 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Collection.Jvm/1.6.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Collection/1.6.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Compose.Runtime.Annotation.Android/1.11.3.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Compose.Runtime.Annotation/1.11.3.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Concurrent.Futures/1.3.0.4 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ConstraintLayout.Core/1.1.1.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ConstraintLayout/2.2.1.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.CoordinatorLayout/1.3.0.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Core.Core.Ktx/1.19.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Core.SplashScreen/1.2.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Core.ViewTree/1.0.0.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Core/1.19.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.CursorAdapter/1.0.0.37 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.CustomView.PoolingContainer/1.1.0.4 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.CustomView/1.2.0.4 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.DocumentFile/1.1.0.4 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.DrawerLayout/1.2.0.21 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.DynamicAnimation/1.1.0.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Emoji2.ViewsHelper/1.6.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Emoji2/1.6.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Fragment/1.9.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Graphics.Shapes.Android/1.1.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Graphics.Shapes/1.1.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Interpolator/1.0.0.37 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Common.Jvm/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Common/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.LiveData.Core/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Process/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Runtime.Android/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Runtime.Ktx.Android/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Runtime.Ktx/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.Runtime/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.ViewModel.Android/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.ViewModel.Ktx/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.ViewModel/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Lifecycle.ViewModelSavedState/2.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Loader/1.2.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.NavigationEvent.Android/1.1.2.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.NavigationEvent/1.1.2.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ProfileInstaller.ProfileInstaller/1.4.1.8 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.RecyclerView/1.4.0.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ResourceInspection.Annotation/1.0.1.25 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.SavedState.SavedState.Android/1.5.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.SavedState.SavedState.Ktx/1.5.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.SavedState/1.5.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Startup.StartupRuntime/1.2.0.8 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.SwipeRefreshLayout/1.2.0.3 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Tracing.Tracing.Android/2.0.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Tracing.Tracing/2.0.0 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.Transition/1.7.0.2 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.VectorDrawable.Animated/1.2.0.11 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.VectorDrawable/1.2.0.11 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.VersionedParcelable/1.2.1.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ViewPager/1.1.0.7 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.AndroidX.ViewPager2/1.1.0.11 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.Google.Android.Material/1.14.0.6 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.Google.ErrorProne.Annotations/2.50.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.Google.Guava.ListenableFuture/1.0.0.32 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.JSpecify/1.0.0.7 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.Jetbrains.Annotations/26.1.0.2 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.Kotlin.StdLib/2.4.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.AtomicFU.Jvm/0.33.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.AtomicFU/0.33.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.Coroutines.Android/1.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.Coroutines.Core.Jvm/1.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.Coroutines.Core/1.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.Serialization.Core.Jvm/1.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries
+- Xamarin.KotlinX.Serialization.Core/1.11.0.1 — MIT AND Apache-2.0 — https://aka.ms/android-libraries

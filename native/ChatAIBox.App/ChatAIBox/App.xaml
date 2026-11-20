@@ -1,0 +1,43 @@
+<Application x:Class="ChatAIBox.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Application.Resources><ResourceDictionary>
+  <ResourceDictionary.MergedDictionaries><XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/></ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary.ThemeDictionaries>
+   <ResourceDictionary x:Key="Light"><SolidColorBrush x:Key="AppAccentSubtleBrush" Color="#12AD714D"/><SolidColorBrush x:Key="AppAccentStrokeBrush" Color="#38AD714D"/><SolidColorBrush x:Key="AppComposerBrush" Color="#D9FCFCFA"/><Color x:Key="SystemAccentColor">#AD532C</Color><SolidColorBrush x:Key="AppSurfaceBrush" Color="#F5F6F5"/><SolidColorBrush x:Key="AppSubtleBrush" Color="#535B64"/><SolidColorBrush x:Key="AppCodeBrush" Color="#F0F1F0"/><SolidColorBrush x:Key="AppAccentBrush" Color="#9B471F"/></ResourceDictionary>
+   <ResourceDictionary x:Key="Default"><SolidColorBrush x:Key="AppAccentSubtleBrush" Color="#18D09B77"/><SolidColorBrush x:Key="AppAccentStrokeBrush" Color="#40D09B77"/><SolidColorBrush x:Key="AppComposerBrush" Color="#A634322F"/><Color x:Key="SystemAccentColor">#DD9463</Color><SolidColorBrush x:Key="AppSurfaceBrush" Color="#252321"/><SolidColorBrush x:Key="AppSubtleBrush" Color="#B5AAA0"/><SolidColorBrush x:Key="AppCodeBrush" Color="#211F1D"/><SolidColorBrush x:Key="AppAccentBrush" Color="#F1B185"/></ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+  <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Assets/fonts/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC</FontFamily>
+  <CornerRadius x:Key="ControlCornerRadius">9</CornerRadius>
+  <Color x:Key="SystemAccentColorLight1">#D39A77</Color>
+  <Color x:Key="SystemAccentColorLight2">#E4BFA6</Color>
+  <Color x:Key="SystemAccentColorLight3">#F1DACA</Color>
+  <Color x:Key="SystemAccentColorDark1">#A96D48</Color>
+  <Color x:Key="SystemAccentColorDark2">#8F5637</Color>
+  <Color x:Key="SystemAccentColorDark3">#74412A</Color>
+  <Style x:Key="QuietButtonStyle" TargetType="Button">
+   <Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/>
+   <Setter Property="CornerRadius" Value="8"/><Setter Property="Padding" Value="10,7"/>
+   <Setter Property="FontSize" Value="13"/><Setter Property="FontWeight" Value="Normal"/>
+  </Style>
+  <Style x:Key="ModeToggleStyle" TargetType="ToggleButton">
+   <Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}"/>
+   <Setter Property="CornerRadius" Value="9"/><Setter Property="Padding" Value="10,6"/>
+   <Setter Property="FontSize" Value="12"/><Setter Property="MinHeight" Value="30"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">
+    <Border x:Name="ToggleSurface" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
+     <VisualStateManager.VisualStateGroups><VisualStateGroup x:Name="CommonStates">
+      <VisualState x:Name="Normal"/>
+      <VisualState x:Name="PointerOver"><VisualState.Setters><Setter Target="ToggleSurface.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}"/></VisualState.Setters></VisualState>
+      <VisualState x:Name="Pressed"><VisualState.Setters><Setter Target="ToggleSurface.Opacity" Value=".7"/></VisualState.Setters></VisualState>
+      <VisualState x:Name="Checked"><VisualState.Setters><Setter Target="ToggleSurface.Background" Value="{ThemeResource AppAccentSubtleBrush}"/><Setter Target="ToggleSurface.BorderBrush" Value="{ThemeResource AppAccentStrokeBrush}"/><Setter Target="ToggleText.Foreground" Value="{ThemeResource AppAccentBrush}"/></VisualState.Setters></VisualState>
+      <VisualState x:Name="CheckedPointerOver"><VisualState.Setters><Setter Target="ToggleSurface.Background" Value="{ThemeResource AppAccentSubtleBrush}"/><Setter Target="ToggleSurface.BorderBrush" Value="{ThemeResource AppAccentStrokeBrush}"/><Setter Target="ToggleText.Foreground" Value="{ThemeResource AppAccentBrush}"/></VisualState.Setters></VisualState>
+      <VisualState x:Name="CheckedPressed"><VisualState.Setters><Setter Target="ToggleSurface.Background" Value="{ThemeResource AppAccentSubtleBrush}"/><Setter Target="ToggleSurface.Opacity" Value=".7"/></VisualState.Setters></VisualState>
+      <VisualState x:Name="Disabled"><VisualState.Setters><Setter Target="ToggleSurface.Opacity" Value=".4"/></VisualState.Setters></VisualState>
+     </VisualStateGroup></VisualStateManager.VisualStateGroups>
+     <ContentPresenter x:Name="ToggleText" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="TextBlockButtonStyle" TargetType="Button"><Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Padding" Value="4,3"/><Setter Property="FontSize" Value="12"/></Style>
+ </ResourceDictionary></Application.Resources>
+</Application>

@@ -11,13 +11,13 @@ android/.idea/
 tools/
 .local/
 
-*.env
-*.key
-*.pem
-*.keystore
-*.jks
-AGENTS.md
-AGENTS.override.md
-.codex/
-
 desktop/native/bin/
+
+native/**/bin/
+native/**/obj/
+native/**/.vs/
+native/**/*.user
+
+native/**/Assets/renderer/
+native/**/Assets/fonts/
+native/**/Assets/licenses/

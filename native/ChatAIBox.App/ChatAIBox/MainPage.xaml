@@ -1,0 +1,63 @@
+<Page x:Class="ChatAIBox.MainPage"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="using:ChatAIBox"
+ Background="Transparent">
+ <Grid x:Name="Root" Background="Transparent" Loaded="PageLoaded" SizeChanged="PageSizeChanged">
+  <Grid.RowDefinitions><RowDefinition Height="44"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Canvas x:Name="BackdropHost" Grid.RowSpan="2" IsHitTestVisible="False"/>
+  <Border x:Name="BackdropTint" Grid.RowSpan="2" IsHitTestVisible="False"/>
+  <Image x:Name="BackgroundImage" Grid.RowSpan="2" Stretch="UniformToFill" IsHitTestVisible="False" Opacity="0"/>
+  <Grid x:Name="WindowHeader"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Border x:Name="TitleDragRegion" Background="Transparent"><StackPanel Orientation="Horizontal" Spacing="12" Margin="24,0,0,0" VerticalAlignment="Center"><TextBlock Text="ChatAIBox" FontSize="15" FontWeight="SemiBold"/><TextBlock x:Name="VersionLabel" Text="0.4.0 beta 5" FontSize="10" Opacity=".35" VerticalAlignment="Center"/></StackPanel></Border>
+   <StackPanel Grid.Column="1" Orientation="Horizontal"><Button Content="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10" Width="46" Height="44" Style="{StaticResource QuietButtonStyle}" Click="MinimizeClicked" AutomationProperties.Name="最小化"/><Button x:Name="MaximizeButton" Content="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10" Width="46" Height="44" Style="{StaticResource QuietButtonStyle}" Click="MaximizeClicked" AutomationProperties.Name="最大化或还原"/><Button Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="10" Width="46" Height="44" Style="{StaticResource QuietButtonStyle}" Click="CloseClicked" AutomationProperties.Name="关闭"/></StackPanel>
+  </Grid>
+  <SplitView x:Name="Shell" Grid.Row="1" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="244" Background="Transparent" PaneBackground="{ThemeResource LayerFillColorDefaultBrush}">
+   <SplitView.Pane>
+    <Grid Padding="18,28,18,18" RowSpacing="20"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="44" Padding="14,0" Background="{ThemeResource AppAccentSubtleBrush}" BorderBrush="{ThemeResource AppAccentStrokeBrush}" Foreground="{ThemeResource AppAccentBrush}" CornerRadius="10" Click="NewChatClicked"><StackPanel Orientation="Horizontal" Spacing="12"><FontIcon Glyph="&#xE710;" FontSize="14"/><TextBlock Text="新对话" FontSize="13"/></StackPanel></Button>
+     <TextBox x:Name="HistorySearch" Grid.Row="1" PlaceholderText="搜索对话" FontSize="12" Height="38" Padding="12,8" Background="Transparent" BorderThickness="1" CornerRadius="9" TextChanged="HistorySearchChanged"/>
+     <ListView x:Name="ChatList" Grid.Row="2" SelectionChanged="ChatSelectionChanged" IsItemClickEnabled="False" SelectionMode="Single" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <ListView.ItemTemplate><DataTemplate><Grid Padding="0,4"><Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><SymbolIcon Symbol="Message" Width="16" Height="16" Opacity=".65"/><TextBlock Grid.Column="1" Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/><Grid.ContextFlyout><MenuFlyout><MenuFlyoutItem Text="删除对话" Click="DeleteChatClicked" Tag="{Binding Id}"/></MenuFlyout></Grid.ContextFlyout></Grid></DataTemplate></ListView.ItemTemplate>
+     </ListView>
+     <Button Grid.Row="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="12" Background="Transparent" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" CornerRadius="10" Click="SyncClicked"><StackPanel Spacing="5"><TextBlock Text="设备同步" FontSize="12"/><TextBlock x:Name="SyncLabel" Text="未开启" FontSize="11" TextWrapping="Wrap" Foreground="{ThemeResource AppSubtleBrush}"/></StackPanel></Button>
+     <Button Grid.Row="4" HorizontalAlignment="Left" Click="SettingsClicked" Style="{StaticResource QuietButtonStyle}"><StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE713;" FontSize="15"/><TextBlock Text="设置" FontSize="12"/></StackPanel></Button>
+    </Grid>
+   </SplitView.Pane>
+   <Grid x:Name="MainSurface" RowSpacing="0" Background="Transparent"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <Grid Padding="20,10" ColumnSpacing="12"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+     <Button x:Name="MenuButton" Click="MenuClicked" Background="Transparent" BorderThickness="0"><SymbolIcon Symbol="GlobalNavigationButton"/></Button>
+     <ComboBox x:Name="ModelBox" Grid.Column="1" SelectionChanged="ModelChanged" MinWidth="190" MaxWidth="360" Background="Transparent" BorderThickness="0" FontSize="13" HorizontalAlignment="Left"/>
+     <Button Grid.Column="2" Click="ImportClicked" Style="{StaticResource QuietButtonStyle}"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE71B;" FontSize="14"/><TextBlock Text="导入分享" FontSize="12"/></StackPanel></Button>
+    </Grid>
+    <InfoBar x:Name="ErrorBar" Grid.Row="1" IsOpen="False" IsClosable="True" Severity="Warning" Margin="20,0,20,8"/>
+    <Grid Grid.Row="2">
+     <StackPanel x:Name="Welcome" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,85,0,0"><Viewbox Width="56" Height="56"><Canvas Width="64" Height="64"><Path Data="M 14,13 L 43,13 C 50,13 54,17 54,24 L 54,38 C 54,45 49,49 42,49 L 26,49 L 13,59 L 13,25 C 13,18 17,13 24,13 M 25,25 L 43,25 M 25,34 L 37,34" Stroke="#B87850" StrokeThickness="2.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/><Ellipse Width="6" Height="6" Fill="#B87850" Canvas.Left="51" Canvas.Top="8"/></Canvas></Viewbox></StackPanel>
+     <Grid x:Name="HistoryPanel" Visibility="Collapsed"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <StackPanel x:Name="Pager" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12" Margin="0,0,0,8"><Button x:Name="OlderButton" Content="更早消息" Click="OlderClicked"/><TextBlock x:Name="PageLabel" VerticalAlignment="Center"/><Button x:Name="NewerButton" Content="更新消息" Click="NewerClicked"/><Button Content="回到最新" Click="LatestClicked"/></StackPanel>
+      <ListView x:Name="MessageList" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="False" Background="Transparent" BorderThickness="0" Padding="28,10,28,20" ScrollViewer.HorizontalScrollBarVisibility="Disabled"><ListView.ItemsPanel><ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate></ListView.ItemsPanel><ListView.Footer><Border x:Name="ReplySpacer" Height="0"/></ListView.Footer></ListView>
+     </Grid>
+    </Grid>
+    <StackPanel x:Name="ComposerArea" Grid.Row="3" Margin="28,8,28,18" Spacing="9" MaxWidth="880" HorizontalAlignment="Stretch">
+     <TextBlock x:Name="PhaseLabel" FontSize="12" TextWrapping="Wrap" Opacity=".75" Visibility="Collapsed"/>
+     <Border Background="{ThemeResource AppComposerBrush}" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="16" Padding="16,12">
+      <StackPanel Spacing="12">
+       <local:MarkdownInput x:Name="DraftBox" PlaceholderText="输入消息" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="64" MaxHeight="200" FontSize="16" Background="Transparent" BorderThickness="0" Padding="4" TextChanged="DraftChanged" PreviewKeyDown="DraftKeyDown"/>
+       <ItemsControl x:Name="AttachmentList"><ItemsControl.ItemTemplate><DataTemplate><Border Background="{ThemeResource AppAccentSubtleBrush}" CornerRadius="8" Padding="9,6" Margin="0,0,0,5"><Grid ColumnSpacing="8"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="2"><TextBlock Text="{Binding Name}" FontSize="12" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding Detail}" FontSize="10" Foreground="{ThemeResource AppSubtleBrush}"/></StackPanel><Button Grid.Column="1" Content="×" Tag="{Binding Id}" Click="RemoveAttachmentClicked" Style="{StaticResource TextBlockButtonStyle}" AutomationProperties.Name="移除附件"/></Grid></Border></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+       <TextBlock x:Name="AttachmentStatus" FontSize="10" Foreground="{ThemeResource AppSubtleBrush}" TextWrapping="Wrap" Visibility="Collapsed"/>
+       <Grid ColumnSpacing="8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <Button Content="＋" Width="30" Height="32" Padding="0" FontSize="20" Background="Transparent" BorderThickness="0" AutomationProperties.Name="添加图片或文件"><Button.Flyout><MenuFlyout><MenuFlyoutItem Text="文件（文本、PDF、Word、Excel）" ToolTipService.ToolTip="每条最多 6 个文件；单个文件最大 20 MB，提取文字最多 25 万字符" Click="FilesClicked"/><MenuFlyoutItem Text="图片" Click="ImagesClicked"/><MenuFlyoutItem Text="粘贴" Click="PasteClicked"/><MenuFlyoutItem Text="语音输入或停止录音" Click="RecordClicked"/><MenuFlyoutItem Text="音频转文字" Click="AudioClicked"/></MenuFlyout></Button.Flyout></Button>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"><ToggleButton x:Name="ThinkingToggle" Content="深度思考" IsChecked="True" Style="{StaticResource ModeToggleStyle}"/><ToggleButton x:Name="SearchToggle" Content="联网搜索" IsChecked="True" Style="{StaticResource ModeToggleStyle}"/><Button x:Name="RecordButton" Content="语音" Click="RecordClicked" Style="{StaticResource TextBlockButtonStyle}"/></StackPanel>
+        <Button x:Name="SendButton" Grid.Column="2" Content="↑" Width="36" Height="36" Padding="0" CornerRadius="11" FontSize="20" Background="{ThemeResource AppAccentSubtleBrush}" BorderBrush="{ThemeResource AppAccentStrokeBrush}" Foreground="{ThemeResource AppAccentBrush}" Click="SendClicked" AutomationProperties.Name="发送或停止"/>
+       </Grid>
+      </StackPanel>
+     </Border>
+     <TextBlock x:Name="ContextLabel" FontSize="10" Opacity=".75" HorizontalAlignment="Center" TextWrapping="Wrap" Text="模型输出可能不准确，请核实重要信息。"/>
+    </StackPanel>
+   </Grid>
+  </SplitView>
+  <Border x:Name="FileDropHint" Grid.RowSpan="2" Margin="12" BorderBrush="{ThemeResource AppAccentBrush}" BorderThickness="2" CornerRadius="16" Background="#30252220" IsHitTestVisible="False" Visibility="Collapsed" AutomationProperties.Name="松开以添加文件">
+   <Border Background="{ThemeResource AppSurfaceBrush}" CornerRadius="14" Padding="26,22" MaxWidth="420" HorizontalAlignment="Center" VerticalAlignment="Center"><StackPanel Spacing="10"><FontIcon Glyph="&#xE8B7;" FontSize="28" Foreground="{ThemeResource AppAccentBrush}"/><TextBlock Text="松开以添加到当前对话" FontSize="17" HorizontalAlignment="Center"/><TextBlock Text="图片、文本、PDF、Word、Excel" FontSize="12" Foreground="{ThemeResource AppSubtleBrush}" HorizontalAlignment="Center"/></StackPanel></Border>
+  </Border>
+ </Grid>
+</Page>
