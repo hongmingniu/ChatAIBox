@@ -22,10 +22,13 @@ public sealed partial class MainPage : Page
 #endif
     }
     private void CloseClicked(object sender,RoutedEventArgs e)=>App.MainWindow?.Close();
-    public MainPage(){InitializeComponent();InitializeFileDrop();DraftBox.PasteRequested=PasteIntoDraftAsync;MessageList.LayoutUpdated+=(_,_)=>{if(following&&followId is not null&&page==0)ScrollReply();};ActualThemeChanged+=(_,_)=>{if(engine is not null)ApplyBackground(engine.Settings);};MessageList.PointerWheelChanged+=(_,_)=>following=false;MessageList.PointerPressed+=(_,_)=>following=false;}
+    public MainPage(){InitializeComponent();InitializeFileDrop();DraftBox.PasteRequested=PasteIntoDraftAsync;ActualThemeChanged+=(_,_)=>{if(engine is not null)ApplyBackground(engine.Settings);};MessageList.PointerWheelChanged+=(_,_)=>following=false;MessageList.PointerPressed+=(_,_)=>following=false;}
     private async void PageLoaded(object sender,RoutedEventArgs e)
     {
         if(loaded)return;loaded=true;try{engine=await App.EngineAsync();engine.Changed+=QueueRefresh;engine.SettingsChanged+=()=>DispatcherQueue.TryEnqueue(ApplySettings);ApplySettings();NativeActions.EnsureBackgroundSync(engine.Settings.SyncEnabled);Refresh();
+#if ANDROID
+            _=Droid.StartupCompatibility.ConfirmReadyAsync();
+#endif
 #if APP_CHECKS
             if(Environment.GetEnvironmentVariable("CHATAIBOX_APP_CHECKS")=="1")_=RunAppChecksAsync();
 #endif
@@ -51,19 +54,26 @@ public sealed partial class MainPage : Page
         PhaseLabel.Text=job?.Phase??"";PhaseLabel.Visibility=string.IsNullOrEmpty(PhaseLabel.Text)?Visibility.Collapsed:Visibility.Visible;ContextLabel.Text=string.IsNullOrEmpty(job?.ContextInfo)?"模型输出可能不准确，请核实重要信息。":job.ContextInfo;
         if(job?.Error is {Length:>0} problem){ErrorBar.Message=problem;ErrorBar.IsOpen=true;}
         SendButton.Content=job?.Busy==true?"■":"↑";SyncLabel.Text=engine.Settings.SyncEnabled?(engine.Sync.Error.Length>0?engine.Sync.Error:App.Storage.IsPhone?engine.Sync.Connection.Connected?"手机主机在线":"正在连接":engine.Sync.Connection.PhoneOnline?engine.Sync.Pending?"正在同步至手机":"已连接手机":engine.Sync.Pending?"手机离线 · 消息暂存在内存":"等待手机在线"):engine.Sync.Pending?"有消息尚未保存到手机":"未开启";
-        if(job?.Live is { } target&&page==0){if(followId!=target.Id){followId=target.Id;requestedFollowOffset=double.NaN;following=true;}if(following)ScrollReply();}
+        if(job?.Live is { } target&&followId!=target.Id){followId=target.Id;if(page==0&&following)ScrollReplyOnce(target.Id);}
     }
-    private bool scrollQueued;private double requestedFollowOffset=double.NaN;
-    private async void ScrollReply()
+    private long scrollRequest;
+    private async void ScrollReplyOnce(string id)
     {
-        if(scrollQueued)return;scrollQueued=true;try{await Task.Delay(24);if(!following||page!=0||followId is not {} id||!cards.TryGetValue(id,out var card))return;MessageList.UpdateLayout();var scroll=Find<ScrollViewer>(MessageList);if(scroll is null)return;
-        ReplySpacer.Height=Math.Max(0,scroll.ViewportHeight-card.ActualHeight-12);MessageList.UpdateLayout();var top=card.TransformToVisual(scroll).TransformPoint(new Point(0,0)).Y;var desired=Math.Clamp(scroll.VerticalOffset+top-8,0,scroll.ScrollableHeight);if(Math.Abs(desired-scroll.VerticalOffset)>2&&(double.IsNaN(requestedFollowOffset)||Math.Abs(desired-requestedFollowOffset)>1)){if(scroll.ChangeView(null,desired,null,false))requestedFollowOffset=desired;}
-        }finally{scrollQueued=false;}
+        var request=++scrollRequest;var chat=active;
+        try{
+            await Task.Delay(160);
+            if(request!=scrollRequest||!following||active!=chat||page!=0||!cards.TryGetValue(id,out var card))return;
+            MessageList.UpdateLayout();var scroll=Find<ScrollViewer>(MessageList);if(scroll is null)return;
+            ReplySpacer.Height=Math.Max(0,scroll.ViewportHeight-card.ActualHeight-12);MessageList.UpdateLayout();
+            var top=card.TransformToVisual(scroll).TransformPoint(new Point(0,0)).Y;
+            var desired=Math.Clamp(scroll.VerticalOffset+top-8,0,scroll.ScrollableHeight);
+            if(Math.Abs(desired-scroll.VerticalOffset)>2)scroll.ChangeView(null,desired,null,false);
+        }catch(Exception error){ShowError("无法定位消息："+error.Message);}
     }
     private static T? Find<T>(DependencyObject node)where T:DependencyObject{if(node is T found)return found;for(var i=0;i<VisualTreeHelper.GetChildrenCount(node);i++){var child=Find<T>(VisualTreeHelper.GetChild(node,i));if(child is not null)return child;}return null;}
     private void Select(string id)
     {
-        active=id;switching=true;ChatList.SelectedItem=engine?.Store.Chats().FirstOrDefault(c=>c.Id==id);switching=false;page=0;following=true;followId=null;requestedFollowOffset=double.NaN;ReplySpacer.Height=0;rowSignature="";switching=true;DraftBox.Text=drafts.GetValueOrDefault(id)??"";switching=false;RefreshAttachments();if(ActualWidth<800)Shell.IsPaneOpen=false;Refresh();
+        active=id;switching=true;ChatList.SelectedItem=engine?.Store.Chats().FirstOrDefault(c=>c.Id==id);switching=false;page=0;following=true;followId=null;scrollRequest++;ReplySpacer.Height=0;rowSignature="";switching=true;DraftBox.Text=drafts.GetValueOrDefault(id)??"";switching=false;RefreshAttachments();if(ActualWidth<800)Shell.IsPaneOpen=false;Refresh();
     }
     private void NewChatClicked(object sender,RoutedEventArgs e){if(documentReads.Contains("")){ShowError("文件正在读取，请稍候");return;}drafts[""]="";attachments[""]=[];documents[""]=[];Select("");}
     private void HistorySearchChanged(object sender,TextChangedEventArgs e){chatSignature="";Refresh();}
@@ -95,7 +105,13 @@ public sealed partial class MainPage : Page
     private void PageSizeChanged(object sender,SizeChangedEventArgs e){Shell.DisplayMode=e.NewSize.Width<800?SplitViewDisplayMode.Overlay:SplitViewDisplayMode.Inline;if(e.NewSize.Width>=800)Shell.IsPaneOpen=true;WindowHeader.Visibility=App.Storage.IsPhone?Visibility.Collapsed:Visibility.Visible;Root.RowDefinitions[0].Height=App.Storage.IsPhone?new GridLength(0):new GridLength(44);MenuButton.Visibility=e.NewSize.Width<800?Visibility.Visible:Visibility.Collapsed;RecordButton.Visibility=e.NewSize.Width<600?Visibility.Collapsed:Visibility.Visible;ComposerArea.Margin=e.NewSize.Width<600?new Thickness(12,8,12,14):new Thickness(28,8,28,18);}
     private void OlderClicked(object sender,RoutedEventArgs e){page++;following=false;followId=null;ReplySpacer.Height=0;rowSignature="";Refresh();}
     private void NewerClicked(object sender,RoutedEventArgs e){page=Math.Max(0,page-1);following=false;followId=null;ReplySpacer.Height=0;rowSignature="";Refresh();}
-    private void LatestClicked(object sender,RoutedEventArgs e){page=0;following=true;followId=null;requestedFollowOffset=double.NaN;ReplySpacer.Height=0;rowSignature="";Refresh();followId=engine?.Jobs.GetValueOrDefault(active)?.Live?.Id??history.LastOrDefault()?.Id;if(followId is not null)ScrollReply();}
+    private void LatestClicked(object sender,RoutedEventArgs e)
+    {
+        page=0;following=true;scrollRequest++;ReplySpacer.Height=0;
+        followId=engine?.Jobs.GetValueOrDefault(active)?.Live?.Id;Refresh();
+        var target=followId??history.LastOrDefault()?.Id;if(target is not null)ScrollReplyOnce(target);
+    }
+
     private async void DeleteChatClicked(object sender,RoutedEventArgs e){if(engine is null||sender is not MenuFlyoutItem {Tag:string id})return;var dialog=new ContentDialog{XamlRoot=XamlRoot,Title="删除对话",Content="删除将同步到已配对设备。",PrimaryButtonText="删除",CloseButtonText="取消",DefaultButton=ContentDialogButton.Close};if(await dialog.ShowAsync()!=ContentDialogResult.Primary)return;engine.Cancel(id);try{await engine.Store.DeleteChatAsync(id);if(id==active)Select("");}catch(Exception error){ShowError(error.Message);}}
     private async void PasteClicked(object sender,RoutedEventArgs e)=>await PasteIntoDraftAsync();
     private async void ImagesClicked(object sender,RoutedEventArgs e){var chat=active;try{await AddDraftFilesAsync(chat,await NativeActions.PickImagesAsync());}catch(Exception error){ShowError(error.Message);}}

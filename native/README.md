@@ -41,3 +41,9 @@ Android：`dotnet publish native/ChatAIBox.App/ChatAIBox/ChatAIBox.csproj -f net
 鸿蒙字体保留原始许可，未经修改。Markdown 渲染依赖沿用仓库内的第三方说明。
 
 `ChatAIBox.Edge` 为独立的 LGPL-3.0 库，包含 Edge TTS 协议实现。其源码和项目文件可用于修改、重新构建和重新链接应用，许可与原始归属见 `shared/EDGE-TTS-LICENSE.txt`、`shared/GPL-3.0.txt` 和 `shared/THIRD_PARTY_NOTICES.md`。其余依赖以各自 NuGet 包中的许可证为准。
+
+## 0.4.0 beta 6
+
+新回复和“回到最新”只平滑定位一次，取消流式输出及布局变化中的重复定位。安卓关闭 Vulkan，优先 OpenGL；上次启动未完成时改用软件渲染重试。启动异常可显示原生错误页、启用兼容模式并退出，或复制异常类型和堆栈。日志不记录对话正文、密钥或异常消息。
+
+安卓发行版使用 `-p:ApplicationVersion=12 -p:ApplicationDisplayVersion=0.4.0-beta.6 -p:Version=0.4.0-beta.6`。兼容调整尚未经 Mate 30 Pro / 鸿蒙 4.2.0 验证；本轮未运行功能或真机测试。

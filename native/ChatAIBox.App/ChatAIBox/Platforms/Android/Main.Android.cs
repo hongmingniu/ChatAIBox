@@ -31,9 +31,13 @@ public class Application : Uno.UI.Runtime.Android.NativeApplication
     {
     }
 
-    protected override UnoPlatformHost CreateHost() =>
-        UnoPlatformHostBuilder.Create()
+    protected override UnoPlatformHost CreateHost()
+    {
+        Uno.UI.FeatureConfiguration.Rendering.UseVulkanOnSkiaAndroid=false;
+        Uno.UI.FeatureConfiguration.Rendering.UseOpenGLOnSkiaAndroid=!StartupCompatibility.Software;
+        return UnoPlatformHostBuilder.Create()
             .App(() => new App())
             .UseAndroid()
             .Build();
+    }
 }
